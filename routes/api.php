@@ -6,13 +6,6 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
-// Route::group(['namespace' => 'App\Http\Controllers\Users'], function () {
-//     Route::post('register', 'AuthController@signup')->name('register');
-//     Route::post('auth/login', 'AuthController@login')->name('login');
-// });
-
-// Route::post('register', 'AuthController@signup')->name('register');
-
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::prefix('auth')->withoutMiddleware('auth:sanctum')->group(function () {
         $limiter = config('fortify.limiters.login');
@@ -31,7 +24,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Reset Password
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
         ->middleware('guest:' . config('fortify.guard'));
-        
+
     // Users
     Route::resource('users', UserController::class);
 });
